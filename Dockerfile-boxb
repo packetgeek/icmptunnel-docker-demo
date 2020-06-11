@@ -1,0 +1,13 @@
+From ubuntu:20.04
+
+# see comments in Dockerfile-boxa
+
+RUN apt-get update
+RUN apt-get upgrade -y
+
+RUN apt-get install -y net-tools vim bash iptables iputils-ping traceroute iproute2
+
+COPY iplink.sh /iplink.sh
+RUN chmod a+x /iplink.sh
+
+CMD ["bash"]

@@ -1,0 +1,27 @@
+From ubuntu:20.04
+
+# Note: see comments in Dockerfile-boxa
+
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# The DEBIAN_FRONTEND setting is needed in the 
+# following to avoid having to answer questions in
+# the middle of the package install
+
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y net-tools \
+  vim bash iptables iputils-ping traceroute iproute2 apache2 traceroute
+
+RUN mkdir /var/run/apache2
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+
+COPY images.jpeg /var/www/html/images.jpeg
+
+CMD ["/usr/sbin/apache2","-DFOREGROUND"]
+

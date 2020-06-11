@@ -1,0 +1,29 @@
+From ubuntu:20.04
+
+# Note: this file is more legible if you use a 
+# colorized terminal editor (Vim) or, for more
+# experienced users, if you run:
+#
+# grep -v "^#" Dockerfile-boxa
+
+# update the installed files
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# install the tools for boxa (the client container)
+RUN apt-get install -y net-tools vim bash iptables iputils-ping traceroute iproute2 git build-essential lynx
+
+# set the working directory
+WORKDIR /
+
+# download the icmptunnel software from Github
+RUN git clone https://github.com/DhavalKapil/icmptunnel
+
+# set the working directory
+WORKDIR /icmptunnel
+
+# build the icmptunnel software
+RUN make all
+
+# start a non-exiting binary, to run as PID 1 in the container
+CMD ["bash"]

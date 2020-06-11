@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Following is run after destroying the containers.  It (more or
+# less) equates to general clean-up.
+
+# delete the container images
+docker rmi boxa
+docker rmi boxb
+docker rmi boxc
+docker rmi boxd
+
+# delete the wireshark image
+docker rmi linuxserver/wireshark
