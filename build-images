@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# re-run this file if you make changes to the Dockerfiles
+
+# build the various containers from their Dockerfiles
+docker build -t boxa -f Dockerfile-boxa .
+docker build -t boxb -f Dockerfile-boxb .
+docker build -t boxc -f Dockerfile-boxc .
+docker build -t boxd -f Dockerfile-boxd .
+
+# Following downloads the Wireshark image from DockerHub
+# To save bandwidth, only execute the following once. There's
+# no need to pull the image multiple times.
+docker pull linuxserver/wireshark

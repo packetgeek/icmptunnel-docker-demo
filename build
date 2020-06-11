@@ -1,0 +1,60 @@
+#!/usr/bin/perl
+
+# deploy the containers
+system("docker run -itd --name boxa -h boxa --add-host=boxc:10.2.2.2 --net=none --privileged --cap-add=NET_ADMIN boxa");
+system("docker run -itd --name boxb -h boxb --net=none --cap-add=NET_ADMIN boxb");
+system("docker run -itd --name boxc -h boxc --add-host=boxa:10.2.1.1 --net=none --privileged --cap-add=NET_ADMIN boxc");
+system("docker run -itd --name boxd -h boxd --net=none boxd");
+system("docker run -itd --name wireshark --cap-add=NET_ADMIN -e PUID=1000 -e PGID=1000 -p 3001:3000 linuxserver/wireshark");
+
+
+# create the switches
+system("ovs-vsctl add-br sw1");
+system("ovs-vsctl add-br sw2");
+system("ovs-vsctl add-br sw3");
+system("ovs-vsctl add-br sw4");
+
+# connect boxa and boxb to sw1 and assign IP address in container
+system("ovs-docker add-port sw1 eth0 boxa --ipaddress=10.2.1.1/24");
+system("ovs-docker add-port sw1 eth0 boxb --ipaddress=10.2.1.2/24");
+
+# connect boxb and boxc to sw2 and assign IP address in container
+system("ovs-docker add-port sw2 eth1 boxb --ipaddress=10.2.2.1/24");
+system("ovs-docker add-port sw2 eth0 boxc --ipaddress=10.2.2.2/24");
+
+# connect boxc and boxd to sw3 and assign IP address in container
+system("ovs-docker add-port sw3 eth1 boxc --ipaddress=192.168.9.1/24");
+system("ovs-docker add-port sw3 eth0 boxd --ipaddress=192.168.9.2/24");
+
+# connect the sniffer to boxb and assing IP address in container
+system("ovs-docker add-port sw4 eth2 boxb --ipaddress=10.2.4.1/24");
+system("ovs-docker add-port sw4 eth1 wireshark --ipaddress=10.2.4.2/24");
+
+# create an internal switch in boxb and tie eth0 to eth1
+system("docker exec -it boxb /iplink.sh");
+
+# tell boxa how to get to boxc (add route)
+system("docker exec -it boxa route add -net 10.2.2.0 netmask 255.255.255.0 gw 10.2.1.2");
+
+# tell boxc how to get to boxa (add route)
+system("docker exec -it boxc route add -net 10.2.1.0 netmask 255.255.255.0 gw 10.2.2.1");
+
+# disable ping packets on client and server
+#system("docker exec -it boxa 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'");
+#system("docker exec -it boxc 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'");
+
+# mirror traffic thru boxb to wireshark
+system("docker exec -it boxb iptables -I PREROUTING -t mangle -j TEE --gateway 10.2.4.2");
+
+# edit the icmptunnel client config
+system("docker exec -it boxa sed -i 's/\<server\>/10.2.2.2/' /icmptunnel/client.sh");
+system("docker exec -it boxa sed -i 's/\<gateway\>/10.2.1.2/' /icmptunnel/client.sh");
+system("docker exec -it boxa sed -i 's/\<interface\>/eth0/' /icmptunnel/client.sh");
+
+# show final comments
+print "\n###########################################################\n";
+print "# to access the client, run \"./client\"                    #\n";
+print "# to access the proxy, run \"./proxy\"                      #\n";
+print "# from client: lynx http://192.168.9.2/images.jpeg          #\n";
+print "# for wireshark, point a browser at http://127.0.0.1:3001 #\n";
+print "###########################################################\n\n";

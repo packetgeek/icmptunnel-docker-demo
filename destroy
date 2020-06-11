@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+# stop the containers
+print "\nStopping the containers\n";
+system("docker stop boxa");
+system("docker stop boxb");
+system("docker stop boxc");
+system("docker stop boxd");
+system("docker stop wireshark");
+
+# destroy the containers
+print "\nDestroying the containers\n";
+system("docker rm boxa");
+system("docker rm boxb");
+system("docker rm boxc");
+system("docker rm boxd");
+system("docker rm wireshark");
+
+# destroy the switches
+# Note: this also clears the associated port entries
+print "\nDestroying the switches\n";
+system("ovs-vsctl del-br sw1");
+system("ovs-vsctl del-br sw2");
+system("ovs-vsctl del-br sw3");
+system("ovs-vsctl del-br sw4");
+

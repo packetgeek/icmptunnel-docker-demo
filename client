@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# connect to the boxa container
+docker exec -it boxa bash
