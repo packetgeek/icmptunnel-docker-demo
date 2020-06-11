@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# connect the user to the proxy (boxc) container
+docker exec -it boxc bash
