@@ -23,7 +23,7 @@ All other binaries will be installed via the scripts in this repo.
 1) If the files aren't already executable, run the following:
     
     ```c
-    chmod a+x build build-images client destroy destory-images proxy
+    chmod a+x build build-images client destroy destory-images proxy get-pcaps
     ```
 
 2) Create the images via:
@@ -79,6 +79,12 @@ All other binaries will be installed via the scripts in this repo.
     
     Follow the prompts to download the file to disk.  If you receive a file called images.jpeg, that is 5662 in size, then it worked.  Take a look at your wireshark display.  You should notice that the file transfer was made over ICMP.
 
+9) You can then grab the pcap or pcapng files (whichever you were using) by running:
+
+```c
+./get_pcaps
+```
+
 ## Additional research
 
 1) In the packet capture, you'll see some spurious echo requests with a "no response found!" message at the end. I think this might be caused by not disabling ICMP response from the containers hosting either end of the tunnel.  If anyone's interested in experimenting, try configuring the container to ignore ICMP (the software will still respond to received ICMP packets).  See: https://github.com/jamesbarlow/icmptunnel for an example.
@@ -90,6 +96,13 @@ All other binaries will be installed via the scripts in this repo.
 4) For a bit of realism (with #3), add filters to the firewall (via iptables statements) that prevent any traffic other than ICMP.
 
 5) Develop a process and/or tool that recovers the content from the captured ICMP traffic.  See example at: https://www.boiteaklou.fr/Data-exfiltration-with-PING-ICMP-NDH16.html
+
+## Troubleshooting
+
+1) If you destroy the images and "./build-images" fails to produce all four box containers, it's likely caused by an update to dependences in the Ubuntu repo.  This is indicated by "file not found" errors in the build output.  The fix for this is to edit the appropriate Dockerfile and change "deleteme.txt" slightly.  This is a known shortcoming in Docker.
+
+2) If you run both the client and server versions of icmptunnel and, when you're attempting to run "lynx http://192.168.9.2/images.jpeg", you receive ONLY unformatted DEBIG messages, trying using a different terminal window for each of the sessions (i.e., one for running icmptunnel on the proxy, one for running icmptunnel on the client, and one for running the lynx command on the client).
+
 
 ## Additional Reading
 
