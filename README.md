@@ -89,7 +89,23 @@ All other binaries will be installed via the scripts in this repo.
 
 4) For a bit of realism (with #3), add filters to the firewall (via iptables statements) that prevent any traffic other than ICMP.
 
-5) Develop a process and/or tool that recovers the content from the captured ICMP traffic.
+5) Develop a process and/or tool that recovers the content from the captured ICMP traffic.  See example at: https://www.boiteaklou.fr/Data-exfiltration-with-PING-ICMP-NDH16.html
+
+## Additional Reading
+
+- Detecting IMCP tunnels with Wireshark - https://medium.com/@alpinoacademy/detecting-icmp-tunnel-with-wireshark-7c8fc6baa77a
+- https://www.boiteaklou.fr/Data-exfiltration-with-PING-ICMP-NDH16.html
+- https://www.giac.org/paper/gcfa/85/piping-shell-icmp-tunnel-a-forensic-study-malicious-code/104357
+
+## Other (unrelated)
+
+1) While researching ICMP tunnels, I stumbled across what looks like the cruft from a series of attacks on various web sites.  If anyone wants to look at it, perform a Google search for "Port Knocking Script Github" (with the quotes).  I found that while researching the addition of port knocking (protocol knocking?), ICMP tunnels, and ICMP tunnel traffic recovery.
+
+2) Wait! What?  There was a backdoor discovered in SOCAT in Feb 2016?  See
+- https://www.openwall.com/lists/oss-security/2016/02/01/4
+- https://github.com/mimoo/Diffie-Hellman_Backdoor
+- https://github.com/mimoo/Diffie-Hellman_Backdoor/tree/master/socat_reverse
+
 
 ## Sources
 
