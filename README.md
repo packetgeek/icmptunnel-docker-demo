@@ -4,6 +4,8 @@ Following are my notes on setting up a basic 5-container network to demonstrate 
 
 I've attempted to obfuscate much of the architecture generation stuff by automating it.  It will generate the architecture depicted in the architecture.png file.
 
+The idea for creating this demo arose out of discussions during the Friday night  TCC Cyber Club meeting, where a desire was expressed to have more pcaps to analyze (students had just participated in the NCLs and a particularly annoying question involved recovering ICMPtunnel content that had been captured in a pcap.
+
 ## Assumptions/Disclaimers
 
 - Unless otherwise noted, all commands in the below are executed as root.
@@ -86,6 +88,8 @@ All other binaries will be installed via the scripts in this repo.
 3) Experiment with tunneling other tools and protocols, pushed through the ICMP tunnel.
 
 4) For a bit of realism (with #3), add filters to the firewall (via iptables statements) that prevent any traffic other than ICMP.
+
+5) Develop a process and/or tool that recovers the content from the captured ICMP traffic.
 
 ## Sources
 
