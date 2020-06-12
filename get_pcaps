@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec wireshark bash -c 'cd /tmp && tar cfz - {./*pcapng,./*pcap}'| tar xfz -
