@@ -9,7 +9,7 @@ I've attempted to obfuscate much of the architecture generation stuff by automat
 - Unless otherwise noted, all commands in the below are executed as root.
 - It is assumed that you understand the basic use of Docker (the build, run, and exec functions).
 - This demo is intended for use by Tidewater Community College's Cyber Club (TC4), for use in creating additional CTF challenges,
-- This demo is intended to be built on your desktop machine, which is running Docker and OpenVSwitch. This is because the build script installs a  Wireshark container which you will access via http://127.0.0.1:3001.  For Ubuntu users, Docker and OpenVSwitch can be installed via:
+- This demo is intended to be built on your desktop machine, which is running Docker and OpenVSwitch. This is because the build script installs a  Wireshark container which you will access via http://127.0.0.1:3001.  For Ubuntu users, Dpcler and OpenVSwitch can be installed via:
 ```c
 apt-get install -y docker.io openvswitch-switch
 ```
@@ -30,7 +30,7 @@ All other binaries will be installed via the scripts in this repo.
     ./build-images
     ```
     
-    Note: the first time that you run this, it will take a couple minutes to build the local images.
+    Note: the first time that you run this, it will take a couple minutes to build the 5 local images.
 
 3) Deploy the containers by running the build script:
     
@@ -79,10 +79,17 @@ All other binaries will be installed via the scripts in this repo.
 
 ## Additional research
 
-In the packet capture, you'll probably see some spurious echo requests with a "no response found!" message at the end. I think this might be caused by not disabling ICMP response from the containers hosting either end of the tunnel.  If anyone's interested in experimenting, try configuring the client and proxy containers to ignore ICMP (the tunnel software will still respond to received ICMP packets).
+1) In the packet capture, you'll see some spurious echo requests with a "no response found!" message at the end. I think this might be caused by not disabling ICMP response from the containers hosting either end of the tunnel.  If anyone's interested in experimenting, try configuring the container to ignore ICMP (the software will still respond to received ICMP packets).  See: https://github.com/jamesbarlow/icmptunnel for an example.
+
+2) You may also see some IPv6 traffic in the pcap.  Figure out how to turn off IPv6 in client and proxy ends.
+
+3) Experiment with tunneling other tools and protocols, pushed through the ICMP tunnel.
+
+4) For a bit of realism (with #3), add filters to the firewall (via iptables statements) that prevent any traffic other than ICMP.
 
 ## Sources
 
 - https://dhavalkapil.com/icmptunnel/
 - https://github.com/DhavalKapil/icmptunnel/
+- https://github.com/jamesbarlow/icmptunnel
 - architecture image was generated via: https://app.diagrams.net/
