@@ -1,3 +1,5 @@
+![icmptunnel architecture](architecture.png)
+
 # Setting up an ICMPtunnel demo on Docker
 
 Following are my notes on setting up a basic 5-container network to demonstrate the use of an ICMPtunnel.  The architecture is based on vanilla Ubuntu containers, OpenVSwitch, iproute2, and the icmptunnel utility by Dhaval Kapil. Links to source material are at the end of this file.
