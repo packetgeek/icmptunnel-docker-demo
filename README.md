@@ -6,7 +6,7 @@ Following are my notes on setting up a basic 5-container network to demonstrate 
 
 I've attempted to obfuscate much of the architecture generation stuff by automating it.  It will generate the architecture depicted in the architecture.png file.
 
-The idea for creating this demo arose out of discussions during the Friday night  TCC Cyber Club meeting, where a desire was expressed to have more pcaps to analyze (students had just participated in the NCLs and a particularly annoying question involved recovering ICMPtunnel content that had been captured in a pcap.
+The idea for creating this demo arose out of discussions during the Friday night  TCC Cyber Club meeting, where a desire was expressed to have more pcaps to analyze (students had just participated in the NCLs and a particularly annoying question involved recovering ICMPtunnel content that had been captured in a pcap).
 
 ## Assumptions/Disclaimers
 
