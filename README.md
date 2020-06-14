@@ -13,7 +13,7 @@ The idea for creating this demo arose out of discussions during the Friday night
 - Unless otherwise noted, all commands in the below are executed as root.
 - It is assumed that you understand the basic use of Docker (the build, run, and exec functions).
 - This demo is intended for use by Tidewater Community College's Cyber Club (TC4), for use in creating additional CTF challenges,
-- This demo is intended to be built on your desktop machine, which is running Docker and OpenVSwitch. This is because the build script installs a  Wireshark container which you will access via http://127.0.0.1:3001.  For Ubuntu users, Dpcler and OpenVSwitch can be installed via:
+- This demo is intended to be built on your desktop machine, which is running Docker and OpenVSwitch. This is because the build script installs a  Wireshark container which you will access via http://127.0.0.1:3001.  For Ubuntu users, Docker and OpenVSwitch can be installed via:
 ```c
 apt-get install -y docker.io openvswitch-switch
 ```
@@ -25,7 +25,7 @@ All other binaries will be installed via the scripts in this repo.
 1) If the files aren't already executable, run the following:
     
     ```c
-    chmod a+x build build-images client destroy destory-images proxy get-pcaps
+    chmod a+x build build-images client destroy destroy-images proxy get-pcaps
     ```
 
 2) Create the images via:
@@ -59,6 +59,7 @@ All other binaries will be installed via the scripts in this repo.
 5) Access the command line of the proxy (running the server end of the tunnel), and create the server end of the tunnel by running:
     
     ```c
+    ./proxy
     nohup ./icmptunnel -s 10.0.1.1 &
     exit
     ```
@@ -70,7 +71,9 @@ All other binaries will be installed via the scripts in this repo.
     ```c
     nohup ./icmptunnel -c 10.2.2.2 &
     ```
-
+    
+    Press "enter" to return to the command line.
+    
 7) Point your browser at http://127.0.0.1:3001 and resize the window as desired.  Select eth1 as the interface.
 
 8) Back in the client command line, run the following:
@@ -82,10 +85,12 @@ All other binaries will be installed via the scripts in this repo.
     Follow the prompts to download the file to disk.  If you receive a file called images.jpeg, that is 5662 in size, then it worked.  Take a look at your wireshark display.  You should notice that the file transfer was made over ICMP.
 
 9) You can then grab the pcap or pcapng files (whichever you were using) by running:
-
-```c
-./get_pcaps
-```
+    
+    ```c
+    ./get_pcaps
+    ```
+    
+    The above will copy the pcap (or pcapng) files from the Wireshark container, to the current working directory (wherever you ran the "get_pcaps" script).
 
 ## Additional research
 
