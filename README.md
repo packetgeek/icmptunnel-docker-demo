@@ -8,7 +8,7 @@ I've attempted to obfuscate much of the architecture generation stuff by automat
 
 The idea for creating this demo arose out of discussions during the Friday night  TCC Cyber Club meeting, where a desire was expressed to have more pcaps to analyze (students had just participated in the NCLs and a particularly annoying question involved recovering ICMPtunnel content that had been captured in a pcap).
 
-## Assumptions/Disclaimers
+## Assumptions/Disclaimers/Credits
 
 - Unless otherwise noted, all commands in the below are executed as root.
 - It is assumed that you understand the basic use of Docker (the build, run, and exec functions).
@@ -19,6 +19,7 @@ apt-get install -y docker.io openvswitch-switch
 ```
 All other binaries will be installed via the scripts in this repo.
 - Is is recommended that your read and underrstand each script/file before running any of the scripts.  I've added commentary to each, to help explain what each command does.
+- Credit goes to DgtlCwby (in TCC Discord) for catching my typos and also for an awesome Bash script that runs the captured file through tshark to extract the graphic.
 
 ## Steps for setup
 
