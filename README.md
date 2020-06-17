@@ -113,6 +113,17 @@ All other binaries will be installed via the scripts in this repo.
 
 2) If you run both the client and server versions of icmptunnel and, when you're attempting to run "lynx http://192.168.9.2/images.jpeg", you receive ONLY unformatted DEBIG messages, trying using a different terminal window for each of the sessions (i.e., one for running icmptunnel on the proxy, one for running icmptunnel on the client, and one for running the lynx command on the client).
 
+3) If you add other files to /var/www/html, on the web server (boxd), you'll likely need to change the file permissions so that they're visible/accessible by Apache.  This can be accomplisthed by running:
+
+```c
+docker exec -it boxd bash
+chown www-data: /var/www/html/*
+exit
+```
+
+In the above, the first line provides access to the boxd container.  The second line changes ownership to www-data (which is the account under which Apache runs), and the third line returns you to the host command line.
+
+To make the files part of the initial build, edit Dockerfile-boxd and copy+modify the line "COPY images.jpeg /var/www/html/images.jpeg" so that it contains the filenames of your new files.  You'll then need to re-run the "./build-images", "./destroy", and "./build" scripts.
 
 ## Additional Reading
 
